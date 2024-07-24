@@ -9,8 +9,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import javax.security.sasl.AuthenticationException;
 
 /**
@@ -64,6 +66,15 @@ public class SocialMediaController {
     @PostMapping("/messages")
     public ResponseEntity<Message> addMessage(@RequestBody Message message) {
         return ResponseEntity.ok().body(messageService.addMessage(message));
+    }
+
+    /**
+     * handler gets all {@code Message} records
+     * @return all {@code Message} records
+     */
+    @GetMapping("/messages")
+    public ResponseEntity<List<Message>> getAllMessages() {
+        return ResponseEntity.ok().body(messageService.getAllMessages());
     }
 
 }
