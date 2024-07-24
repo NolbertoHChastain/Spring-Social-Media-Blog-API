@@ -1,5 +1,8 @@
 package com.example.controller;
 
+import java.util.List;
+import javax.security.sasl.AuthenticationException;
+
 import com.example.entity.Account;
 import com.example.entity.Message;
 import com.example.service.AccountService;
@@ -7,13 +10,11 @@ import com.example.service.MessageService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import javax.security.sasl.AuthenticationException;
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller using Spring. The endpoints you will need can be
@@ -70,6 +71,7 @@ public class SocialMediaController {
 
     /**
      * handler gets all {@code Message} records
+     * 
      * @return all {@code Message} records
      */
     @GetMapping("/messages")
@@ -77,4 +79,15 @@ public class SocialMediaController {
         return ResponseEntity.ok().body(messageService.getAllMessages());
     }
 
+
+    /**
+     * Get {@code Message} by {@code messageId}
+     * 
+     * @param messageId
+     * @return the {@code Message} given by {@code messageId}
+     */
+    @GetMapping("/messages/{messageId}")
+    public ResponseEntity<Message> getMessageById(@PathVariable Integer messageId) {
+        return ResponseEntity.ok().body(messageService.getMessageById(messageId));
+    }
 }

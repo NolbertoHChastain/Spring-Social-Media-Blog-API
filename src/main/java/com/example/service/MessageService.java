@@ -4,6 +4,7 @@ import com.example.entity.Message;
 import com.example.repository.MessageRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -38,5 +39,15 @@ public class MessageService {
      */
     public List<Message> getAllMessages() {
         return messageRepository.findAll();
+    }
+
+    /**
+     * Retrieve {@code Message} by {@code messageId}
+     * @param messageId
+     * @return the existing {@code Message} found by {@code messageId}
+     */
+    public Message getMessageById(int messageId) {
+        Optional<Message> existingMessage = messageRepository.findById(messageId);
+        return existingMessage.isPresent() ? existingMessage.get() : null;
     }
 }
