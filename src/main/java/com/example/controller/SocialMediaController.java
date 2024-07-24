@@ -1,7 +1,9 @@
 package com.example.controller;
 
 import com.example.entity.Account;
+import com.example.entity.Message;
 import com.example.service.AccountService;
+import com.example.service.MessageService;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +23,12 @@ import javax.security.sasl.AuthenticationException;
 public class SocialMediaController {
 
     private AccountService accountService;
+    private MessageService messageService;
 
     @Autowired
-    public SocialMediaController(AccountService accountService) {
+    public SocialMediaController(AccountService accountService, MessageService messageService) {
         this.accountService = accountService;
+        this.messageService = messageService;
     }
 
     /**
@@ -49,6 +53,17 @@ public class SocialMediaController {
     public ResponseEntity<Account> login(@RequestBody Account account) throws AuthenticationException {
         Account existingAccount = accountService.login(account);
         return ResponseEntity.ok().body(existingAccount);
+    }
+
+    /**
+     * handler adds new {@code Message}
+     * 
+     * @param message to add
+     * @return added {@code Message}
+     */
+    @PostMapping("/messages")
+    public ResponseEntity<Message> addMessage(@RequestBody Message message) {
+        return ResponseEntity.ok().body(messageService.addMessage(message));
     }
 
 }
