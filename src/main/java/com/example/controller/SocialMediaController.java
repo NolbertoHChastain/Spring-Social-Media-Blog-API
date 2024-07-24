@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -89,5 +90,16 @@ public class SocialMediaController {
     @GetMapping("/messages/{messageId}")
     public ResponseEntity<Message> getMessageById(@PathVariable Integer messageId) {
         return ResponseEntity.ok().body(messageService.getMessageById(messageId));
+    }
+
+    /**
+     * Delete {@code Message} by {@code messageId}
+     * @param messageId
+     * @return updated rows (1) if existed, otherwise empty
+     */
+    @DeleteMapping("/messages/{messageId}")
+    public ResponseEntity<Integer> deleteMesageById(@PathVariable Integer messageId) {
+        int rowsDeleted = messageService.deleteMessageById(messageId);
+        return rowsDeleted == 1 ? ResponseEntity.ok().body(1) : ResponseEntity.ok().build();
     }
 }

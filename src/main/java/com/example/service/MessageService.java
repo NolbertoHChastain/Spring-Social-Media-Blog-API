@@ -43,11 +43,26 @@ public class MessageService {
 
     /**
      * Retrieve {@code Message} by {@code messageId}
+     * 
      * @param messageId
      * @return the existing {@code Message} found by {@code messageId}
      */
     public Message getMessageById(int messageId) {
         Optional<Message> existingMessage = messageRepository.findById(messageId);
         return existingMessage.isPresent() ? existingMessage.get() : null;
+    }
+
+    /**
+     * Deletes {@code Message} by {@code messageId}
+     * 
+     * @param messageId
+     * @return updated rows (1 or 0)
+     */
+    public int deleteMessageById(int messageId) {
+        Message existingMessage = this.getMessageById(messageId);
+        if (existingMessage != null) {
+            messageRepository.deleteById(messageId);
+            return 1;
+        } else return 0;
     }
 }
