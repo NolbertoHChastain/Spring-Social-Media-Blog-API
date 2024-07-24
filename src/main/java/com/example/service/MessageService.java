@@ -65,4 +65,17 @@ public class MessageService {
             return 1;
         } else return 0;
     }
+    
+
+    public int updateMessageTextById(Message message) {
+        Message existingMessage = this.getMessageById(message.getMessageId());
+        if (existingMessage != null) {
+            String updateMessage = message.getMessageText();
+            if (!(updateMessage.isBlank() || updateMessage.length() > 255)) {
+                messageRepository.updateMessageTextById(updateMessage, existingMessage.getMessageId());
+                return 1;
+            }
+        }
+        throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to update non-existent Message");
+    }
 }
