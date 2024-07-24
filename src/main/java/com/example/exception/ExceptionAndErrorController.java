@@ -1,5 +1,7 @@
 package com.example.exception;
 
+import javax.security.sasl.AuthenticationException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -19,6 +21,12 @@ public class ExceptionAndErrorController {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleInvalidRegistration(InvalidRegistrationException ex) {
         return ex.getMessage();
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public String handleUnauthorizedLogin(AuthenticationException ex) {
+        return ex.toString();
     }
 
 }

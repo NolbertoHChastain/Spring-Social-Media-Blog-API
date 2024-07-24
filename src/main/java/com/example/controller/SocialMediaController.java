@@ -3,12 +3,13 @@ package com.example.controller;
 import com.example.entity.Account;
 import com.example.service.AccountService;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.security.sasl.AuthenticationException;
 
 /**
  * TODO: You will need to write your own endpoints and handlers for your controller using Spring. The endpoints you will need can be
@@ -27,7 +28,7 @@ public class SocialMediaController {
     }
 
     /**
-     * Handler registers new {@code Account} from {@code @RequestBody}
+     * Handler registers new {@code Account}
      * 
      * @param newAccount the new {@code Account} to register
      * @return {@code ResponseEntity} containing newly registered {@code Account}
@@ -36,6 +37,18 @@ public class SocialMediaController {
     public ResponseEntity<Account> register(@RequestBody Account newAccount) {
         Account addedAccount = accountService.register(newAccount);
         return ResponseEntity.ok().body(addedAccount); // 200 - success
+    }
+
+    /**
+     * handler verifies login given {@code account}
+     * 
+     * @param account the {@code Account} to verify
+     * @return {@code ResponseEntity} containing existing {@code Account}
+     */
+    @PostMapping("/login")
+    public ResponseEntity<Account> login(@RequestBody Account account) throws AuthenticationException {
+        Account existingAccount = accountService.login(account);
+        return ResponseEntity.ok().body(existingAccount);
     }
 
 }
