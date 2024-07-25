@@ -66,7 +66,12 @@ public class MessageService {
         } else return 0;
     }
     
-
+    /**
+     * Update {@code messageText} given {@code messageId}
+     * 
+     * @param message
+     * @return updated rows (1 or 0)
+     */
     public int updateMessageTextById(Message message) {
         Message existingMessage = this.getMessageById(message.getMessageId());
         if (existingMessage != null) {
@@ -78,4 +83,9 @@ public class MessageService {
         }
         throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unable to update non-existent Message");
     }
+
+    public List<Message> getAllMessagesPostedBy(int postedBy) {
+        return messageRepository.findAllByPostedBy(postedBy); 
+    }
+
 }

@@ -104,11 +104,23 @@ public class SocialMediaController {
         return rowsDeleted == 1 ? ResponseEntity.ok().body(1) : ResponseEntity.ok().build();
     }
 
-
+    /**
+     * Patch {@code messageText} for existing {@code Message} record, given {@code messageId}
+     * 
+     * @param messageId
+     * @param message
+     * @return updated rows (1), otherwise empty
+     */
     @PatchMapping("/messages/{messageId}")
     public ResponseEntity<Integer> patchMessageTextbyId(@PathVariable Integer messageId, @RequestBody Message message) {
         message.setMessageId(messageId);
         int updatedRows = messageService.updateMessageTextById(message);
         return ResponseEntity.ok().body(updatedRows);
+    }
+
+
+    @GetMapping("/accounts/{accountId}/messages")
+    public ResponseEntity<List<Message>> getAllMessagesPostedBy(@PathVariable Integer accountId) {
+        return ResponseEntity.ok().body(messageService.getAllMessagesPostedBy(accountId));
     }
 }
